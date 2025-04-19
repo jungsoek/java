@@ -1565,3 +1565,1598 @@ q
     System.out.println("v2 : " + v2);	// 컴파일 에러
     ```
 
+# 연산자
+
+## 부호/증감 연산자
+
+### 부호 연산자
+
+부호 연산자는 변수의 부호를 유지하거나 변경한다.
+
+| 연산식     | 설명                 |
+| ---------- | -------------------- |
+| + 피연산자 | 피연산자의 부호 유지 |
+| - 피연산자 | 피연산자의 부호 변경 |
+
+`+` 연산자는 잘 사용되지 않고, `-` 연산자는 변수값의 부호를 변경할 때 사용된다. 주의할 점은 부호 변경 후의 타입이다. 다음 코드는 컴파일 에러가 발생한다.
+
+```java
+byte b = 100;
+byte result = -b;	// 컴파일 에러
+```
+
+정수 타입(byte, short, int) 연산의 결과는 int 타입이다. 부호를 변경하는 것도 연산이므로 다음과 같이 int 타입 변수에 대입해야 한다.
+
+```java
+byte b = 100;
+int result = -b;
+```
+
+*SignOperatorExample.java*
+
+```java
+package Chap3_Operator;
+
+public class SignOperatorExample {
+
+	public static void main(String[] args) {
+		
+		int x = -100;
+		x = -x;
+		System.out.println(x);
+		
+		byte b = 100;
+		int y = -b;
+		System.out.println(y);
+
+	}
+
+}
+```
+
+```
+100
+-100
+```
+
+### 증감 연산자
+
+증감 연산자(++, --)는 변수의 값을 1 증가시키거나 1 감소시키는 연산자이다.
+
+| 연산식      | 설명                                             |
+| ----------- | ------------------------------------------------ |
+| ++ 피연산자 | 피연산자의 값을 1 증가시킴                       |
+| -- 피연산자 | 피연산자의 값을 1 감소시킴                       |
+| 피연산자 ++ | 다른 연산을 수행 후에 피연산자의 값을 1 증가시킴 |
+| 피연산자 -- | 다른 연산을 수행 후에 피연산자의 값을 1 감소시킴 |
+
+변수 단독으로 증감 연산자가 사용될 경우에는 변수의 앞뒤 어디에든 붙어도 결과는 동일하다.
+
+하지만 여러 개의 연산자가 포함되어 있는 연산식에서는 증감 연산자의 위치에 따라 결과가 달라진다. 
+
+* 전위 증감 연산자 
+
+  증감 연산자가 변수 앞에 있으면 변수 사용 전 연산한다. 즉, 메모리에 저장된 값을 변경 후, 그 새로운 값을 사용한다.
+
+* 후위 증감 연산자
+
+  증감 연산자가 변수 뒤에 있으면 변수 사용 후 연산한다. 즉, 메모리에 저장된 값을 사용 후, 메모리에 저장한다.
+
+cf) : 여기서 변수를 사용한다는 것은 메모리에 변수를 저장한다는 것 역시 포함된다.
+
+```java
+int x = 1;
+int y = 1;
+int result1 = ++x + 10;		// x를 1증가	// int result1 = 2 + 10;
+int result2 = y++ + 10;		// int result2 = 1 + 10;	// y를 1 증가
+```
+
+위 코드에서 result1과 result2에는 각각 12와 11이 저장된다. 그리고 최종 x와 y의 값은 2가 된다.
+
+*IncreaseDecreaseOperatorExample.java*
+
+```java
+package Chap3_Operator;
+
+public class IncreaseDecreaseOperatorExample {
+
+	public static void main(String[] args) {
+		
+		int x = 10;
+		int y = 10;
+		int z;
+		
+		x++;
+		++x;
+		System.out.println("x = " + x); 
+		
+		System.out.println("---------------------");
+		
+		y--;
+		--y;
+		System.out.println("y = " + y); 
+		
+		System.out.println("---------------------");
+		
+		z = x++;
+		System.out.println("z = " + z); 
+		System.out.println("x = " + x);
+		
+		System.out.println("---------------------");
+		
+		z = ++x;
+		System.out.println("z = " + z);
+		System.out.println("x = " + x);
+		
+		System.out.println("---------------------");
+		
+		z = ++x + y++;
+		System.out.println("z = " + z);
+		System.out.println("x = " + x);
+		System.out.println("y = " + y);
+
+	}
+
+}
+```
+
+```
+x = 12
+---------------------
+y = 8
+---------------------
+z = 12
+x = 13
+---------------------
+z = 14
+x = 14
+---------------------
+z = 23
+x = 15
+y = 9
+```
+
+## 산술 연산자
+
+산술 연산자는 +, -, *, /, %로 총 5개이다.
+
+| 연산식              | 설명                                       |
+| ------------------- | ------------------------------------------ |
+| 피연산자 + 피연산자 | 덧셈 연산                                  |
+| 피연산자 - 피연산자 | 뺄셈 연산                                  |
+| 피연산자 * 피연산자 | 곱셈 연산                                  |
+| 피연산자 / 피연산자 | 나눗셈 연산(피연산자의 타입에 따라 다르다) |
+| 피연산자 % 피연산자 | 나눗셈의 나머지를 산출하는 연산            |
+
+산술 연산의 특징은 다음과 같다.
+
+* 피연산자가 정수 타입(byte, short, char, int)이면 연산 결과는 int 타입이다.
+* 피연산자가 정수 타입이고 그 중 하나가 long 타입이면 연산의 결과는 long 타입이다.
+* 피연산자 중 하나가 실수 타입이면 연산의 결과는 실수 타입이다.
+
+*ArithmeticOperatorExample.java*
+
+```java
+package Chap3_Operator;
+
+public class ArithmeticOperatorExample {
+
+	public static void main(String[] args) {
+		
+		byte v1 = 10;
+		byte v2 = 4;
+		int v3 = 5;
+		long v4 = 10L;
+		
+		int result1 = v1 + v2;	// 모든 피연산자는 int 타입으로 자동 변환 후 연산
+		System.out.println(result1);
+		
+		long result2 = v1 + v2 - v4;	// 모든 피연산자는 long 타입으로 자동 변환 후 연산
+		System.out.println(result2);
+		
+		double result3 = (double) v1 / v2;	// double 타입으로 강제 변환 후 연산
+		System.out.println(result3);
+		
+		int result4 = v1 % v2;
+		System.out.println(result4);
+
+	}
+
+}
+```
+
+```
+14
+4
+2.5
+2
+```
+
+위 코드에서
+
+```java
+double result3 = (double) v1 / v2;	// double 타입으로 강제 변환 후 연산
+```
+
+를 보면 v1만 강제 타입 변환이 되고 v2는 자동 타입 변환된다. 데이터 타입이 다른 피연산자가 연산에 참여할 때 자바는 더 큰 범위를 지원하는 데이터 타입으로 작은 타입을 자동으로 변환한다. 이를 타입 승격이라고 한다.
+
+메모리와 JVM 관점에서 보면, v1과 v2는 메서드 내부의 스택 영역에 저장된다. 이때, v1과 v2는 각각 byte 형으로 저장된다. 이후 JVM은 (double) v1 구문의 타입 변환을 수행한다. 그다음 JVM은 v2를 자동으로 타입을 double로 변환한다. 이 작업은 JVM이 값을 계산하기 위하여 연산 중 임시메모리를 생성하여 처리한다. 변환된 v2의 double 값은 스택의 연산 영역(Operand Stack)에 저장된다.
+
+## 오버플로우와 언더플로우
+
+오버플로우란 타입이 허용하는 최대값을 벗어나는 것을 말한다. 반대로 언더플로우는 타입이 허용하는 최소값을 벗어나는 것을 말한다. 정수 타입 연산에서 오버플로우 또는 언더플로우가 발생하면 값이 잘리고 순환된 값이 메모리에 저장된다. 잘려진 값은 저장되지 않고 버려진다. 다만, 오버플로우 여부를 기록하기 위해 상태 레지스터에 플래그가 설정된다. 
+
+순환된 값이 메모리에 저장되는 예를 보면 byte 타입일 경우 최대값을 127에서 1을 더하면 128이 되어 오버플로우가 발생하여 연산 결과는 최소값인 -128이 된다. 그리고 다시 1을 더하면 -127이 된다.
+
+```java
+byte value = 127;
+value++;	// value 값에 1을 더함
+System.out.println(value);	// -128
+```
+
+마찬가지로 -128에서 1을 빼면 -129가 되어 언더플로우가 발생하는데, 연산 결과는 최대값인 127이 된다. 그리고 다시 1을 빼면 126이 된다.
+
+```java
+byte value = -128;
+value--;	// value 값에 1을 뺌
+System.out.println(value);	// 127
+```
+
+*OverflowUnderflowExample.java*
+
+```java
+package Chap3_Operator;
+
+public class OverflowUnderflowExample {
+
+	public static void main(String[] args) {
+
+		byte var1 = 125;
+		for(int i=0; i<5; i++) {
+			var1++;
+			System.out.println(var1);
+		}
+		
+		System.out.println("-------------------------");
+		
+		byte var2 = -125;
+		for(int i=0; i<5; i++) {
+			var2--;
+			System.out.println(var2);
+		}
+
+	}
+
+}
+```
+
+```
+126
+127
+-128
+-127
+-126
+-------------------------
+-126
+-127
+-128
+127
+126
+```
+
+## 나눗셈 연산 후 NaN과 Infinity 처리
+
+나눗셈 또는 나머지 연산에서 우측 피연산자가 0일 경우에 예외(ArithmeticException)가 발생한다. 무한대의 값을 정수로 표현할 수 없기 때문이다. 
+
+```java
+int x = 5;
+int y = 0;
+int result = 5 / 0;		// 예외 발생
+```
+
+하지만 좌측 피연산자가 실수이거나 우측 피연산자가 0.0 또는 0.0f이면 예외가 발생하지 않고 연산의 결과는 Infinity(무한대) 또는 NaN(Not a Number)이 된다.
+
+Infinity 또는 NaN 상태에서 계속해서 연산을 수행하면 안된다. 어떤 연산을 하더라도 결과는 계속해서 Infinity와 NaN이 된다.
+
+따라서 /와 % 연산의 결과가 Infinity 또는 NaN인지 먼저 확인하고 다음 연산을 수행하는 것이 좋다. 확인하기 위해서는 Double.isInfinite()와 Double.isNaN()를 사용한다. 이렇게 하면 변수값이 Infinity 또는 NaN일 경우 true를, 그렇지 않다면 false를 산출한다.
+
+```java
+boolean result = Double.isInfinity(변수);
+boolean result = Double.isNaN(변수);
+```
+
+## 비교 연산자
+
+비교 연산자는 동등 또는 크기를 평가해서 boolean 타입인 true/false를 반환한다. 비교 연산자는 흐름 제어문인 조건문, 반복믄에서 실행 흐름을 제어할 때 주로 사용된다.
+
+| 구문      | 연산식                 | 설명             |
+| --------- | ---------------------- | ---------------- |
+| 동등 비교 | 피연산자1 == 피연산자2 | 값이 같은지 검사 |
+|           | 피연산자1 != 피연산자2 | 값이 다른지 검사 |
+| 크기 비교 | 피연산자1 > 피연산자2  |                  |
+|           | 피연산자1 >= 피연산자2 |                  |
+|           | 피연산자1 < 피연산자2  |                  |
+|           | 피연산자1 <= 피연산자2 |                  |
+
+문자열을 비교할 때에는 동등 연산자 대신 equals()와 !equals()를 사용한다. 이유는 자바에서 문자열은 리터럴이 아닌 참조타입의 자료형이기 때문이다.
+
+## 논리 연산자
+
+논리 연산자는 논리곱, 논리합, 배타적 논리합 그리고 논리 부정 연산을 수행한다. 논리 연산은 흐름 제어문인 조건문, 반복문 등에서 주로 이용된다.
+
+| 구분               | 연산식                  | 결과  | 설명                                                         |
+| ------------------ | ----------------------- | ----- | ------------------------------------------------------------ |
+| AND(논리곱)        | true && 또는 & true     | true  | 피연산자 모두가 true일 경우에만 연산 결과가 true             |
+|                    | true && 또는 & false    | false |                                                              |
+|                    | false && 또는 & true    | true  |                                                              |
+|                    | false && 또는 & false   | false |                                                              |
+| OR(논리합)         | true \|\| 또는 \| true  | true  | 피연산자 중 하나만 true이면 연산 결과는 true                 |
+|                    | true \|\| 또는 \| false | true  |                                                              |
+|                    | false \|\| 또는 true    | true  |                                                              |
+|                    | false \|\| 또는 false   | false |                                                              |
+| XOR(배타적 논리합) | true ^ true             | false | 피연산자가 하나는 true이고 다른 하나가 false일 경우에만 연산 결과가 true |
+|                    | true ^ false            | true  |                                                              |
+|                    | false ^ true            | true  |                                                              |
+|                    | false ^ false           | false |                                                              |
+| NOT(논리 부정)     | ! true                  | false | 피연산자의 논리값을 바꿈                                     |
+|                    | ! false                 | true  |                                                              |
+
+&&와 &는 산출 결과는 같지만 연산 과정이 조금 다르다. &&는 앞의 피연산자가 false라면 뒤의 피연산자를 평가하지 않고 바로 false를 산출한다. 그러나 &는 두 피연산자 모두를 평가해서 산출 결과를 낸다. 따라서 &보다는 &&가 더 효율적으로 동작한다. ||와 |도 마찬가지이다. 
+
+*LogicalOperatorExample.java*
+
+```java
+package Chap3_Operator;
+
+public class LogicalOperatorExample {
+
+	public static void main(String[] args) {
+
+//		int charCode = 'A';
+//		int charCode = 'a';
+		int charCode = '5';
+		
+		if((65 <= charCode) & (charCode <= 90)) {
+			System.out.println("대문자이군요.");
+		}
+		
+		if((97 <= charCode) && (charCode <= 127)) {
+			System.out.println("소문자이군요.");
+		}
+		
+		if((48 <= charCode) & (charCode <= 57)) {
+			System.out.println("0~9 숫자이군요.");
+		}
+		
+//		----------------------------------------------
+		
+//		int value = 6;
+		int value = 7;
+		
+		if((value%2==0) | (value%3==0)) {
+			System.out.println("2 또는 3의 배수이군요.");
+		}
+		
+		boolean result = (value%2==0) || (value%3==0);
+		if(!result) {
+			System.out.println("2 또는 3의 배수가 아니군요.");
+		}
+
+	}
+
+}
+```
+
+```
+0~9 숫자이군요.
+2 또는 3의 배수가 아니군요.
+```
+
+## 비트 논리 연산자
+
+비트 논리 연산자는 bit 단위로 논리 연산을 수행한다. 0과 1이 피연산자가 되므로 2진수 0과 1로 저장되는 정수 타입만 피연산자가 될 수 있고, 부동 소수점 방식으로 저장되는 실수 타입은 피연산자가 될 수 없다.
+
+다음은 비트 논리 연산자의 종류를 보여준다. 피연산자가 1, 0이라는 것과, 산출 결과가 1, 0이라는 점에 주목하자. 1은 true, 0은 false라고 생각한다면 앞의 논리 연산자와 차이가 없다.
+
+| 구분               | 연산식 | 결과 | 설명                                                       |
+| ------------------ | ------ | ---- | ---------------------------------------------------------- |
+| AND(논리곱)        | 1 & 1  | 1    | 두 비트 모두 1일 경우에만 연산 결과가 1                    |
+|                    | 1 & 0  | 0    |                                                            |
+|                    | 0 & 1  | 0    |                                                            |
+|                    | 0 & 0  | 0    |                                                            |
+| OR(논리합)         | 1 \| 1 | 1    | 두 비트 중 하나만 1이면 연산 결과는 1                      |
+|                    | 1 \| 0 | 1    |                                                            |
+|                    | 0 \| 1 | 1    |                                                            |
+|                    | 0 \| 0 | 0    |                                                            |
+| XOR(배타적 논리합) | 1 ^ 1  | 0    | 두 비트 중 하나는 1이고 다른 하나가 0일 경우 연산 결과는 1 |
+|                    | 1 ^ 0  | 1    |                                                            |
+|                    | 0 ^ 1  | 1    |                                                            |
+|                    | 0 ^ 0  | 0    |                                                            |
+| NOT(논리 부정)     | ~ 1    | 0    | 보수                                                       |
+|                    | ~ 0    | 1    |                                                            |
+
+비트 논리 연산이 왜 필요한지 예를 하나 들어보자. 소형 임베디드 장치의 C 프로그램에서 외부 서버의 자바 프로그램으로 데이터를 전달한다고 가정하자. C 언어에는 unit8_t 타입이 있는데, 이 타입은 1byte 크기를 가지면서 0-255 값의 범위를 가진다.
+
+C 프로그램이 unit8_t 타입 136(10001000)을 2진수로 보내면, 자바는 2진수를 -120(10001000)으로 읽게 된다. 그 이유는 자바는 최상위 비트가 1이면 음수로 인식하기 때문이다.
+
+-120을 C 프로그램이 보낸 136으로 복원하고 싶다면 -120과 255를 비트 논리곱(&) 연산을 수행하면 된다.
+
+```java
+byte receiveData = -120;
+int unsignedInt = receiveData & 255; // 136
+```
+
+receiveData는 int 타입으로 변환되고, 다음과 같이 연산이 수행된다.
+
+​    `11111111`   `11111111`   `11111111`   `10001000` (-120)
+
+& `00000000`   `00000000`   `00000000`   `11111111` (255)
+
+`-----------------------------------------`
+
+   `00000000`   `00000000`   `00000000`   `10001000` (136)
+
+위와 같이 255와 비트 논리곱 연산을 수행하는 방법도 있지만, 자바는 개발자의 편의성을 위해 Byte.toUnsignedInt() 코드를 제공한다.
+
+```java
+byte receiveData = -120;
+int unsignedInt = Byte.toUnsignedInt(receiveData);	// 136
+```
+
+*BitLogicExample.java*
+
+```java
+package Chap3_Operator;
+
+public class BitLogicExample {
+
+	public static void main(String[] args) {
+		
+		System.out.println("45 & 25 = " + (45 & 25));
+		System.out.println("45 | 25 = " + (45 | 25));
+		System.out.println("45 ^ 25 = " + (45 ^ 25));
+		System.out.println("~45 = " + (~45));
+		
+		System.out.println("------------------------------");
+		
+		byte receiveData = -120;
+		
+		// 방법1 : 비트 논리곱 연산으로 Unsigned 정수 얻기
+		int unsignedInt1 = receiveData & 255;
+		System.out.println(unsignedInt1);
+		
+		// 방법2 : 자바 API를 이용해서 Unsigned 정수 얻기
+		int unsignedInt2 = Byte.toUnsignedInt(receiveData);
+		System.out.println(unsignedInt2);
+		
+		int test = 136;
+		byte btest = (byte) test;
+		System.out.println(btest);
+
+	}
+
+}
+```
+
+```
+45 & 25 = 9
+45 | 25 = 61
+45 ^ 25 = 52
+~45 = -46
+------------------------------
+136
+136
+-120
+```
+
+## 비트 이동 연산자
+
+비트 연산자에는 논리 연산자 외에도 이동 연산자가 있다. 비트 이동 연산자는 비트를 좌측 또는 우측으로 밀어서 이동시키는 연산을 수행한다.
+
+| 구분        | 연산식  | 설명                                                         |
+| ----------- | ------- | ------------------------------------------------------------ |
+| 이동(shift) | a << b  | 정수 a의 각 비트를 b만큼 왼쪽으로 이동<br />오른쪽 빈자리는 0으로 채움<br />a x 2^b와 동일한 결과가 됨 |
+|             | a >> b  | 정수 a의 각 비트를 b만큼 오른쪽으로 이동<br />왼쪽 빈자리는 최상위 부호 비트와 같은 값으로 채움<br />a / 2^b와 동일한 결과가 됨 |
+|             | a >>> b | 정수 a의 각 비트를 b만큼 오른쪽으로 이동<br />왼쪽 빈자리는 0으로 채움 |
+
+좌측 이동 연산자(<<)를 사용하여 정수 1을 3비트만큼 왼쪽으로 이동시켜보자.
+
+```java
+int result = 1 << 3;
+```
+
+`00000000`   `00000000`   `00000000`   `00000001`
+
+`<<3`
+
+`00000000`   `00000000`   `00000000`   `00001` `000`
+
+빠져나온 `000`는 버림
+
+4byte(32bit) 전체를 왼쪽으로 3비트 이동하면 맨 왼쪽 3비트는 밀려서 버려지고, 맨 오른쪽에 새로 생기는 3비트는 0으로 채워진다. 따라서 result 변수에는 8이 저장된다. 좌측 이동 연산자(<<)는 다음과 같이 2의 거듭제곱을 곱한 결과와 동일한다.
+
+```
+1 << 3 = 1 x 2^3 = 8
+```
+
+이번에는 우측 이동 연산자(>>)를 사용하여 정수 -8을 3비트만큼 오른쪽으로 이동시켜보자.
+
+`1` `1111111`   `11111111`   `11111111`   `11111000`
+
+`>>3`
+
+`111` `11111`   `11111111`   `11111111`   `11111111`
+
+빠져나온 `000`은 버림
+
+4byte(32bit) 전체를 오른쪽으로 3비트 이동할 때 맨 오른쪽 3비트는 밀려서 버려지고, 맨 왼쪽에 새로 생기는 3비트는 최상위 보호 비트와 동일한 값으로 채워진다. 4byte가 모두 1이면 정수 -1이므로 변수 result에는 -1이 저장된다. 우측 이동 연산자(`>>>`)는 다음과 같이 2의 거듭제곱을 나눈 결과와 동일하다.
+
+```
+-8 >> 3 = -8 / 2^3 = -1
+```
+
+*BitShiftExample1.java*
+
+```java
+package Chap3_Operator;
+
+public class BitShiftExample {
+
+	public static void main(String[] args) {
+		
+		int num1 = 1;
+		int result1 = num1 << 3;
+		int result2 = num1 * (int) Math.pow(2, 3);
+		System.out.println(result1);
+		System.out.println(result2);
+		
+		int num2 = -8;
+		int result3 = num2 >> 3;
+		int result4 = num2 / (int) Math.pow(2, 3);
+		System.out.println(result3);
+		System.out.println(result4);
+
+	}
+
+}
+```
+
+```
+8
+8
+-1
+-1
+```
+
+이번에는 우측 이동 연산자(>>>)를 사용하여 정수 -8을 3비트만큼 오른쪽으로 이동시킨다.
+
+```java
+int result = -8 >>> 3;
+```
+
+`11111111`    `11111111`    `11111111`    `11111000`
+
+`>>>3`
+
+`000` `11111`    `11111111`    `11111111`    `11111111`
+
+32비트 전체를 오른쪽으로 3비트 이동할 때 맨 오른쪽 3비트는 밀려서 버려지고, 맨 왼쪽에 새로 생기는 3비트는 무조건 0으로 채워진다. 이렇게 변환된 2진수를 10진수로 변환하면 536870911 값을 얻는다.
+
+*BitShiftExample2.java*
+
+```java
+package Chap3_Operator;
+
+public class BitShiftExample2 {
+
+	public static void main(String[] args) {
+		
+		int value = 772; // [00000000][00000000][00000011][00000100]
+		
+		// 우측으로 3byte(24bit) 이동하고 끝 1바이트만 읽음 [00000000]
+		byte byte1 = (byte) (value >>> 24);
+		int int1 = byte1 & 255;
+		System.out.println("첫번째 바이트 부호 없는 값 : " + int1);
+		
+		// 우측으로 2byte(16bit) 이동하고 끝 1바이트만 읽음 [00000000]
+		byte byte2 = (byte) (value >>> 16);
+		int int2 = Byte.toUnsignedInt(byte2);
+		System.out.println("두번째 바이트 부호 없는 값 : " + byte2);
+		
+		// 우측으로 1byte(8bit) 이동하고 끝 1바이트만 읽음 [00000011]
+		byte byte3 = (byte) (value >>> 8);
+		int int3 = byte3 & 255;
+		System.out.println("세번째 바이트 부호 없는 값 : " + int3);
+		
+		// 끝 1바이트만 읽음 : [00000100]
+		byte byte4 = (byte) value;
+		int int4 = Byte.toUnsignedInt(byte4);
+		System.out.println("네 번째 바이트 부호 없는 값 : " + int4);
+
+	}
+
+}
+```
+
+```
+첫번째 바이트 부호 없는 값 : 0
+두번째 바이트 부호 없는 값 : 0
+세번째 바이트 부호 없는 값 : 3
+네 번째 바이트 부호 없는 값 : 4
+```
+
+## 대입 연산자
+
+대입 연산자는 우측 피연산자의 값을 좌측 피연산자인 변수에 대입한다. 우측 피연산자에 리터럴 및 변수, 그리고 다른 연산식이 올 수 있다. 대입 연산자의 종류에는 단순히 값을 대입하는 단순 대입 연산자가 있고, 정해진 연산을 수행한 후 결과를 대입하는 복합 대입 연산자가 있다.
+
+| 구분                        | 연산식             | 설명                                                 |
+| --------------------------- | ------------------ | ---------------------------------------------------- |
+| 단순 대입 연산자            | 변수 = 피연산자    | 우측 피연산자의 값을 변수에 저장                     |
+| 복합 대입 연산자(이하 동일) | 변수 += 피연산자   | 연산 기호에 따라 연산 후 다시 변수에 저장(이하 동문) |
+|                             | 변수 -= 피연산자   |                                                      |
+|                             | 변수 *= 피연산자   |                                                      |
+|                             | 변수 /= 피연산자   |                                                      |
+|                             | 변수 %= 피연산자   |                                                      |
+|                             | 변수 &= 피연산자   |                                                      |
+|                             | 변수 \|= 피연산자  |                                                      |
+|                             | 변수 ^= 피연산자   |                                                      |
+|                             | 변수 <<= 피연산자  |                                                      |
+|                             | 변수 >>= 피연산자  |                                                      |
+|                             | 변수 >>>= 피연산자 |                                                      |
+
+## 삼항(조건) 연산자
+
+삼항 연산자(피연산자 ? 피연산자 : 피연산자)는 총 3개의 피연산자를 가진다. ? 앞의 피연산자는 boolean 변수 또는 조건식이 오므로 조건 연산자라고도 한다. 이 값이 true이면 `:` 앞의 피연산자가 선택되고, false이면 `:` 뒤의 피연산자가 선택된다.
+
+피연산자2와 3에는 주로 값이 오지만, 경우에 따라서는 다른 연산식이 올 수도 있다.
+
+*ConditionalOperationExample.java*
+
+```java
+package Chap3_Operator;
+
+public class ConditionalOperationExample {
+
+	public static void main(String[] args) {
+		
+		int score = 85;
+		char grade = (score > 90) ? 'A' : ((score > 80) ? 'B' : 'C');
+		System.out.println(score + "점은 " + grade + "등급입니다.");
+
+	}
+
+}
+```
+
+```
+85점은 B등급입니다.
+```
+
+## 연산의 방향과 우선순위
+
+다음은 연산자의 연산 방향과 우선순위를 정리한 표이다.
+
+| 연산자                                                 | 연산 방향 | 우선순위 |
+| ------------------------------------------------------ | --------- | -------- |
+| 증감(`++`, `--`), 부호(`+`, `-`), 비트(`~`), 논리(`!`) | ←         | 높음     |
+| 산술(`*`, `/`, `%`)                                    | →         |          |
+| 산술(`+`, `-`)                                         |           |          |
+| 쉬프트(`<<`, `>>`, `>>>`)                              |           |          |
+| 비교(`<`, `>`, `<=`, `>=`, instanceof)                 |           |          |
+| 비교(`==`, `!=`)                                       |           |          |
+| 논리(`&`)                                              |           |          |
+| 논리(`^`)                                              |           |          |
+| 논리(`|`)                                              |           |          |
+| 논리(`&&`)                                             |           |          |
+| 논리(`||`)                                             |           |          |
+| 조건(`?:`)                                             |           |          |
+| 대입(`=`, `+=`, `-=`, `*=`, ...)                       | ←         | 낮음     |
+
+먼저 처리할 연산은 괄호()로 묶는다. 괄호는 최우선 순위를 가지기 때문이다.
+
+# 조건문과 반복문
+
+## 코드 실행 흐름 제어
+
+## if 문
+
+## switch 문
+
+case에 어떤 자료형이든 넣을 수 있다(list, hashmap 등). 또한 여러 값을 하나의 case에 넣을 수도 있다.
+
+## for 문
+
+### 향상된 for 문(foreach) 문
+
+```java
+for (데이터타입 변수이름 : 배열이나 컬렉션) {
+    // 반복할 코드
+}
+```
+
+*배열 순회*
+
+```java
+int[] numbers = {1, 2, 3, 4, 5};
+
+for (int number : numbers) {
+    System.out.println(number); // 배열 요소를 하나씩 출력
+}
+```
+
+*컬렉션 순회*
+
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+List<String> names = new ArrayList<>();
+names.add("Alice");
+names.add("Bob");
+names.add("Charlie");
+
+for (String name : names) {
+    System.out.println(name); // 리스트의 각 이름을 출력
+}
+```
+
+## HashMap 순회
+
+*키-값 쌍 순회*
+
+```java
+import java.util.HashMap;
+import java.util.Map;
+
+public class Main {
+    public static void main(String[] args) {
+        HashMap<String, Integer> map = new HashMap<>();
+        map.put("Apple", 3);
+        map.put("Banana", 5);
+        map.put("Cherry", 7);
+
+        // Entry Set을 사용하여 순회
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
+            System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
+        }
+    }
+}
+```
+
+*키만 순회*
+
+```java
+for (String key : map.keySet()) {
+    System.out.println("Key: " + key);
+}
+```
+
+*값만 순회*
+
+```java
+for (Integer value : map.values()) {
+    System.out.println("Value: " + value);
+}
+```
+
+## Iterator를 사용한 순회
+
+Iterator는 자바를 포함한 많은 프로그래밍 언어에서 컬렉션(Collection)의 요소들을 순차적으로 접근할 수 있는 도구이다. 쉽게 말해, 순회(iteration)를 수행하기 위한 객체이다. 이터레이터는 특히 요소의 순서에 접근하거나 탐색이 필요한 경우 유용하게 사용된다.
+
+### Iterator의 특징
+
+* 통일된 방식
+
+​	배열, 리스트, 셋(Set), 맵(Map)과 같은 다양한 컬렉션을 순회할 수 있도록 설계됨.
+
+* 단방향 이동
+
+​	이터레이터는 컬렉션의 요소를 한 방향(앞으로)으로만 이동하며, 뒤로 돌아갈 수 없다.
+
+* 동적 관리
+
+​	컬렉션 요소를 순회하는 도중 요소를 제거하는 등 변경 작업을 수행할 수 있다.
+
+
+
+### Iterator를 사용하는 이유
+
+가독성: 컬렉션의 내부 구조를 몰라도 순회할 수 있는 간결한 방식.
+
+안전성: 순회 중에도 컬렉션 요소를 변경할 수 있으며, 직접 인덱스를 다루지 않아 오류 가능성을 줄임.
+
+범용성: 다양한 데이터 구조를 일관된 방식으로 처리 가능.
+
+### Iterator의 주요 메소드
+
+`hasNext()`: 다음 요소가 있는지 확인하고 **true** 또는 **false**를 반환한다.
+
+`next()`: 다음 요소를 반환하며, 커서를 다음 위치로 이동한다.
+
+`remove()`: 현재 요소를 삭제한다(선택적 메서드).
+
+### 동작 원리
+
+`map.entrySet().iterator()`를 호출하여 HashMap의 Entry Set을 기반으로 Iterator를 생성.
+
+`iterator.hasNext()`를 통해 다음 요소가 있는지 확인.
+
+`iterator.next()`를 호출하여 현재 요소를 가져온다.
+
+```java
+import java.util.ArrayList;
+import java.util.Iterator;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Apple");
+        list.add("Banana");
+        list.add("Cherry");
+
+        // Iterator 생성
+        Iterator<String> iterator = list.iterator();
+
+        // 순회
+        while (iterator.hasNext()) {
+            String element = iterator.next();
+            System.out.println(element);
+
+            // 필요하면 요소 삭제
+            if (element.equals("Banana")) {
+                iterator.remove();
+            }
+        }
+
+        System.out.println("After removal: " + list); // ["Apple", "Cherry"]
+    }
+}
+```
+
+```java
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
+public class Main {
+    public static void main(String[] args) {
+        HashMap<String, Integer> map = new HashMap<>();
+        map.put("Apple", 3);
+        map.put("Banana", 5);
+        map.put("Cherry", 7);
+
+        // Iterator를 사용하여 순회
+        Iterator<Map.Entry<String, Integer>> iterator = map.entrySet().iterator();
+
+        while (iterator.hasNext()) {
+            Map.Entry<String, Integer> entry = iterator.next();
+            System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
+        }
+    }
+}
+```
+
+## while 문
+
+*KeyControlExample.java*
+
+```java
+package Chap4_ConditionalAndLoop;
+
+import java.util.Scanner;
+
+public class KeyControlExample {
+
+	public static void main(String[] args) {
+		
+		Scanner scanner = new Scanner(System.in);
+		boolean run = true;
+		int speed = 0;
+		
+		while(run) {
+			System.out.println("------------------------------");
+			System.out.println("1. 증속 | 2. 감속 | 3. 중지");
+			System.out.println("------------------------------");
+			System.out.println("선택 : ");
+			
+			String strNum = scanner.nextLine();
+			
+			if(strNum.equals("1")) {
+				speed++;
+				System.out.println("현재 속도 = " + speed);
+			} else if(strNum.equals("2")) {
+				speed--;
+				System.out.println("현재 속도 = " + speed);
+			} else if(strNum.equals("3")) {
+				run = false;
+			}
+		}
+		
+		System.out.println("시스템 종료");
+
+	}
+
+}
+
+```
+
+```
+------------------------------
+1. 증속 | 2. 감속 | 3. 중지
+------------------------------
+선택 : 
+1
+현재 속도 = 1
+------------------------------
+1. 증속 | 2. 감속 | 3. 중지
+------------------------------
+선택 : 
+3
+시스템 종료
+
+```
+
+### do-while 문
+
+*DoWhileExample.java*
+
+```java
+package Chap4_ConditionalAndLoop;
+
+import java.util.Scanner;
+
+public class DoWhileExample {
+
+	public static void main(String[] args) {
+		
+		System.out.println("메세지 입력");
+		System.out.println("q를 누르면 종료");
+		
+		Scanner scanner = new Scanner(System.in);
+		String inputString;
+		
+		do {
+			System.out.println(">");
+			inputString = scanner.nextLine();
+			System.out.println(inputString);
+		} while ( ! inputString.equals("q"));
+		
+		System.out.println();
+		System.out.println("프로그램 종료");
+
+	}
+
+}
+```
+
+```
+메세지 입력
+q를 누르면 종료
+>
+안녕
+안녕
+>
+방가
+방가
+>
+q
+q
+
+프로그램 종료
+```
+
+## break 문
+
+### 라벨
+
+`Outter:`는 라벨(label)로, 자바에서 특정 반복문에 이름을 부여할 때 사용된다. 이 이름을 통해 해당 반복문을 쉽게 참조하고, 특정 조건에서 반복문 전체를 빠져나갈 수 있다. 자바에서 라벨은 보통 `break`나 `continue`와 함께 사용되며, 코드의 흐름을 제어하는 데 도움을 준다.
+
+#### 라벨의 역할
+
+위 코드에서 `Outter:`는 외부 반복문을 가리킨다. 내부 반복문에서 `break Outter;`를 호출하면, 내부 반복문뿐만 아니라 외부 반복문까지 종료된다. 즉, 라벨은 어느 반복문을 종료하거나 건너뛸지를 지정하는 역할을 한다.
+
+#### 사용 사례
+
+라벨은 복잡한 중첩 반복문에서 특정 조건에 따라 반복문을 빠져나가야 할 때 유용하다. 하지만 코드 가독성을 위해 지나치게 남용하지 않는 것이 좋다. 대체로 라벨 대신 메서드 분리와 같은 다른 접근법을 권장한다.
+
+*BreakOutterExample.java*
+
+```java
+package Chap4_ConditionalAndLoop;
+
+public class BreakOutterExample {
+
+	public static void main(String[] args) throws Exception {
+		
+		Outter: for(char upper='A'; upper<='Z'; upper++) {
+			for(char lower='a'; lower<='z'; lower++) {
+				System.out.println(upper + "-" + lower);
+				if(lower=='g') {
+					break Outter;
+				}
+			}
+		}
+		
+		System.out.println("프로그램 실행 종료");
+
+	}
+
+}
+```
+
+```
+A-a
+A-b
+A-c
+A-d
+A-e
+A-f
+A-g
+프로그램 실행 종료
+```
+
+## continue 문
+
+*ContinueExample.java*
+
+```java
+package Chap4_ConditionalAndLoop;
+
+public class ContinueExample {
+
+	public static void main(String[] args) throws Exception {
+		
+		for(int i=1; i<=10; i++) {
+			if(i%2 != 0) {
+				continue;
+			}
+			
+			System.out.println(i + " ");
+			
+		}
+
+	}
+
+}
+```
+
+```
+2 
+4 
+6 
+8 
+10 
+```
+
+# 참조 타입
+
+## 데이터 타입 분류
+
+자바의 데이터 타입은 크게 기본 타입과 참조 타입으로 분류된다. 참조 타입이란 객체의 번지를 참조하는 타입으로 배열, 열거, 클래스, 인터페이스 타입이 있다.
+
+기본 타입으로 선언된 변수와 참조 타입으로 선언된 변수의 차이점은 저장되는 값이다. 기본 타입으로 선언된 변수는 값 자체를 저장하고 있지만, 참조 타입으로 선언된 변수는 객체가 생성된 메모리 번지를 저장한다.
+
+cf) : 참조 타입은 포인터인가?
+
+참조 타입은 포인터와 다르다. 포인터는 메모리 주소를 직접 다루는 변수를 의미하며, 주로 C나 C++ 같은 언어에서 사용된다. 이에 비해 참조 타입은 주소를 직접 다루기보다는, 객체의 위치를 간접적으로 참조하는 역할을 한다.
+
+예를 들어, Java와 같은 언어에서 참조 타입은 객체의 메모리 위치를 저장하지만, 개발자가 메모리 주소를 직접 조작할 수는 없도록 추상화되어 있다. 이는 메모리 관리와 보안성을 높이는 데 도움을 준다.
+
+따라서 : 
+
+* 포인터는 메모리 주소를 직접 조작하는 반면,
+* 참조 타입은 메모리 주소를 추상화하고 객체에 간접적으로 접근할 수 있게 한다.
+
+변수들은 모두 스택이라는 메모리 영역에 생성된다. 기본 타입 변수는 직접 값을 저장하고 있지만, 참조 타입 변수는 힙 메모리 영역의 String 객체 번지를 저장하고 이 번지를 통해 String 객체를 참조한다.
+
+## 메모리 사용 영역
+
+자바에서 사용하는 메모리 영역에 대해 알아본다. java 명령어로 JVM이 구동되면 JVM은 운영체제에서 할당받은 메모리 영역(Runtime Data Area)을 다음과 같이 구분해서 사용한다. 
+
+### 메소드 영역
+
+메소드 영역은 바이트코드 파일을 읽은 내용이 저장되는 영역으로 클래스별로 상수, 정적 필드, 메소드 코드, 생성자 코드 등이 저장된다. 주요 특징은 다음과 같다.
+
+* 클래스 파일이 로드되면 클래스별 데이터, 정적 변수(static variable), 상수와 메서드 코드가 이곳에 저장된다.
+* 클래스의 구조에 대한 정보와, 정적 초기화 블록 등이 포함된다.
+* JVM의 종료 시까지 해당 데이터가 유지된다.
+
+### 힙 영역
+
+힙 영역은 객체가 생성되고 저장되는 영역이다. 객체의 번지는 메소드 영역과 스택 영역의 상수와 변수에서 참조할 수 있다.
+
+* 모든 객체와 배열이 생성되며, GC가 관리한다.
+* 메소드 영역과 스택 영역에서 참조할 수 있는 객체 데이터가 포함된다.
+* new 키워드를 사용해 객체를 생성하면, 이 객체가 힙에 저장된다.
+
+### 스택 영역
+
+스택 영역은 메소드를 호출할 때마다 생성되는 프레임이 저장되는 영역이다. 메소드 호출이 끝나면 프레임은 자동 제거된다. 프레임 내부에는 로컬 변수 스택이 있다. 여기에서 기본 타입 변수와 참조 타입 변수가 생성되고 제거된다.
+
+* 메소드 호출에 대한 정보(스택 프레임)가 저장된다.
+* 로컬 변수(기본 타입과 참조 타입)와 메소드의 매개변수가 저장된다.
+* 자동으로 생성 및 제거되므로 개발자가 직접 관리하지 않는다.
+
+## 참조 타입 변수의 ==, != 연산
+
+==, != 연산자는 변수의 값이 같은지, 아닌지를 조사한다. 참조 타입 변수의 값은 객체의 번지이므로 참조 타입 변수의 ==, != 연산자는 번지를 비교하는 것이 된다. 번지가 같다면 동일한 객체를 참조하는 것이고, 다르다면 다른 객체를 참조하는 것이다.
+
+*ReferenceVariableCompareExample.java*
+
+```java
+package Chap4_ConditionalAndLoop;
+
+public class ReferenceVariableCompareExample {
+
+	public static void main(String[] args) {
+		
+		int[] arr1;
+		int[] arr2;
+		int[] arr3;
+		
+		arr1 = new int[] {1,2,3};
+		arr2 = new int[] {1,2,3};
+		arr3 = arr2;
+		
+		System.out.println(arr1 == arr2);
+		System.out.println(arr2 == arr3);
+
+	}
+
+}
+```
+
+```
+false
+true
+```
+
+## null과 NullPointerException
+
+참조 타입 변수는 아직 번지를 저장하고 있지 않다는 뜻으로 null 값을 가질 수 있다. null도 초기값으로 사용할 수 있기 때문에 null로 초기화된 참조 변수는 스택 영역에 생성된다.
+
+```java
+String refVar1 = "자바";
+String refVar2 = null;
+```
+
+참조 타입 변수가 null 값을 가지는지 확인하려면 다음과 같이 ==, != 연산을 수행할 수 있다.
+
+```java
+refVar1 == null;	// 결과 : false
+refVar2 != null;	// 결과 : true
+```
+
+```java
+refVar2 == null		// 결과 : true
+refVar2 != null		// 결과 : false
+```
+
+자바는 프로그램 실행 도중에 발생하는 오류를 예외라고 부른다. 참조 변수를 사용하면서 가장 많이 발생하는 예외 중 하나는 NullPointerException이다. 변수가 null인 상태에서 객체의 데이터나 메소드를 사용하려 할 때 이 예외가 발생한다. 다음 코드를 보자.
+
+```java
+int[] intArray = null;
+intArray[0] = 10;		// NullPointerException
+```
+
+배열 변수 intArray에 null을 대입한 상태에서 배열 객체의 0 인덱스 항목에 10을 대입하는 코드(intArray[0] = 10)를 실행하면 NullPointerException이 발생한다. 이유는 intArray가 참조하는 배열 객체가 없으므로 10을 저장할 수 없기 때문이다. 다음 코드도 보자.
+
+```java
+String str = null;
+System.out.println("총 문자 수 : " + str.length());		// NullPointerException
+```
+
+str 변수에 null을 대입한 상태에서 문자열 길이를 얻기 위해 length() 메소드를 호출하면 NullPointerException이 발생한다. 이유는 str 변수가 참조하는 String 객체가 없으므로 문자열의 길이를 구할 수 없기 때문이다. 
+
+따라서 str 변수가 null인지 확인하는 코드를 추가하면 NullPointerException을 피할 수 있다.
+
+```java
+if (str != null) {
+    System.out.println("총 문자 수 : " + str.length());
+} else {
+    System.out.println("str 변수는 null입니다.");
+}
+```
+
+*NullPointerExceptionExample.java*
+
+```java
+package Chap4_ConditionalAndLoop;
+
+public class NullPointerExceptionExample {
+
+	public static void main(String[] args) {
+		
+		int[] intArray = null;
+		// intArray[0] = 10;	// NullPointerException
+		
+		String str = null;
+		System.out.println(str.length());	// NullPointerException
+
+	}
+
+}
+```
+
+```
+Exception in thread "main" java.lang.NullPointerException: Cannot invoke "String.length()" because "str" is null
+	at Chap4_ConditionalAndLoop.NullPointerExceptionExample.main(NullPointerExceptionExample.java:11)
+```
+
+앞으로 NullPointerException이 발생하면 예외가 발생된 곳에서 null인 상태의 참조 변수가 사용되고 있음을 알아야 한다. 이것을 해결하려면 참조 변수가 객체를 정확히 참조하도록 번지를 대입해야 한다.
+
+경우에 따라서는 참조 타입 변수에 일부러 null을 대입하기도 한다. 프로그램에서 객체를 사용하려면 해당 객체를 참조하는 변수를 이용해야 하는데, 변수에 null을 대입하면 번지를 잃게 되므로 더이상 객체를 사용할 수 없게 된다.
+
+```java
+String hobby = "여행";
+hobby = null;
+```
+
+어떤 변수에서도 객체를 참조하지 않으면 해당 객체는 프로그램에서 사용할 수 없는 객체가 된다. 즉, 힙 메모리에는 있지만, 위치 정보를 모르기 때문에 사용할 수 없게 된다. 자바는 이러한 객체를 쓰레기로 취급하고, GC를 실행시켜 자동으로 제거한다.
+
+사실 자바는 코드를 이용해서 객체를 직접 제거하는 방법을 제공하지 않는다. 객체를 제거하는 유일한 방법은 객체의 모든 참조를 없애는 것이다.
+
+다음 코드에서 "여행"에 해당하는 String 객체는 쓰레기가 된다. hobby 변수에 "영화"가 대입되면서 다른 String 객체의 번지가 대입되어 이전 번지를 잃어버리기 때문이다.
+
+```java
+String hobby = "여행";
+hobby = "영화";
+```
+
+*GarbageObjectExample.java*
+
+```java
+package Chap4_ConditionalAndLoop;
+
+public class GarbageObjectExample {
+
+	public static void main(String[] args) {
+		
+		String hobby = "여행";
+		hobby = null;		// "여행"에 해당하는 String 객체를 쓰레기로 만듦
+		
+		String kind1 = "자동차";
+		String kind2 = kind1;	// kind1 변수에 저장되어 있는 번지를 kind2 변수에 대입
+		kind1 = null;	// "자동차"에 해당하는 String 객체는 쓰레기가 아님
+		System.out.println("kind2 : " + kind2);
+
+	}
+
+}
+```
+
+```
+kind2 : 자동차
+```
+
+10라인에서 kind1 변수에 null을 대입한다고 해서 "자동차"에 해당하는 String 객체가 쓰레기가 되지는 않는다. 그 이유는 kind2 변수가 여전히 참조하고 있기 때문이다.
+
+## 문자열(String) 타입
+
+자바의 문자열은 String 객체로 생성된다. 다음은 두 개의 String 변수 name과 hobby를 선언하고 문자열 리터럴을 대입한 것이다. name 변수와 hobby 변수에 문자열 리터럴이 대입되면 문자열은 String 객체로 생성되고, 객체의 번지가 각각 대입된다.
+
+```java
+String name;				// String 타입 변수 name 선언 
+name = "홍길동";			  // name 변수에 문자열 대입
+String hobby = "여행";	   // String 타입 변수 hobby를 선언하고 문자열 대입
+```
+
+### String 자료형이 참조형인 이유
+
+1. 불변성
+
+   Java의 String 객체는 불변 객체로 설계되었다. 즉, 생성된 문자열은 변경할 수 없다. 이런 특성을 유지하려면 값 자체를 저장하는 기본 타입(primitive type)이 아니라, 객체를 생성하여 참조하는 구조가 필요하다. 이를 통해 동일한 문자열을 여러 참조에서 공유할 수 있어 메모리를 효율적으로 사용한다.
+
+2. 추상화의 기능
+
+   문자열은 단순히 텍스트 데이터를 저장하는 데 그치지 않고, 다양한 기능을 제공한다. 예를 들어, 문자열 비교, 변환, 검색 등의 메서드가 포함되어 있다. 이러한 추가 기능은 객체로 구현하는 것이 훨씬 유연하며, 객체 지향 프로그래밍의 원칙을 따른다.
+
+3. 문자열 조작 성능
+
+   자바는 문자열을 효율적으로 관리하기 위해 문자열 상수 풀(String Constant Pool)을 사용한다. 동일한 문자열 리터럴이 재사용되며, 이는 참조 타입을 기반으로 하는 구조에서 가능해진다. 기본 타입이라면 이런 최적화가 어려울 수 있다.
+
+4. 객체 기반 설계 철학
+
+   Java는 객체 지향 언어로 설계되었기 때문에 문자열처럼 복잡한 데이터를 객체로 다루는 것이 자연스러운 선택이다. 기본 타입은 단순 데이터를 처리하는 데 적합하지만, 문자열처럼 다양한 기능과 특성을 포함하는 경우에는 객체로 구현하는 것이 더 적합하다.
+
+### 문자열 비교
+
+자바는 문자열 리터럴이 동일하다면 String 객체를 공유하도록 설계되어 있다. 다음과 같이 name1과 name2 변수에 "홍길도"을 대입할 경우, name1과 name2 변수에는 동일한 String 객체의 번지가 저장된다.
+
+```java
+String name1 = "홍길동"
+String name2 = "홍길동";
+```
+
+String 변수에 문자열 리터럴을 대입하는 것이 일반적이지만, new 연산자로 직접 String 객체를 생성하고 대입할 수도 있다. new 연산자는 새로운 객체를 만드는 연산자로 객체 생성 연산자라고 한다.
+
+```java
+String name1 = new String("홍길동");
+String name2 = new String("홍길동");
+```
+
+이 경우 name1과 name2 변수는 서로 다른 String 객체의 번지를 가지게 된다.
+
+그렇기 때문에 문자열 리터럴로 생성하느냐 new 연산자로 생성하느냐에 따라 비교 연산자의 결과가 달라질 수 있다.
+
+```java
+String name1 = "홍길동";
+String name2 = "홍길동";
+String name3 = new String("홍길동");
+```
+
+name1과 name2는 동일한 문자열 리터럴로 생성된 객체를 참조하기 때문에 name1 == name2의 결과는 true가 나오지만, name3은 new 연산자로 String 객체를 별도로 저장했기 때문에 name1 == name3의 결과는 false가 나온다.
+
+```java
+name1 == name2 		// 결과 : true
+name1 == name3		// 결과 : false
+```
+
+동일한 String 객체든 다른 String 객체든 상관없이 내부 문자열만을 비교할 경우에는 String 객체의 equals() 메소드를 사용한다.
+
+*EqualsExample.java*
+
+```java
+package Chap4_ConditionalAndLoop;
+
+public class EqualsExample {
+
+	public static void main(String[] args) {
+		
+		String strVar1 = "홍길동";
+		String strVar2 = "홍길동";
+		
+		if(strVar1 == strVar2) {
+			System.out.println("참조가 동일");
+		} else {
+			System.out.println("참조가 다름");
+		}
+		
+		if(strVar1.equals(strVar2)) {
+			System.out.println("문자열 동일");
+		}
+		
+		String strVar3 = new String("홍길동");
+		String strVar4 = new String("홍길동");
+		
+		if(strVar3 == strVar4) {
+			System.out.println("참조가 같음");
+		} else {
+			System.out.println("참조가 다름");
+		}
+		
+		if(strVar3.equals(strVar4)) {
+			System.out.println("문자열 동일");
+		}
+
+	}
+
+}
+```
+
+```
+참조가 동일
+문자열 동일
+참조가 다름
+문자열 동일
+```
+
+String 변수에 빈 문자열을 대입할 수도 있다. 빈 문자열도 String 객체로 생성되기 때문에 변수가 빈 문자열을 참조하는지 조사하려면 위와 동일하게 equals() 메소드를 사용해야 한다.
+
+### 문자 추출
+
+문자열에서 특정 위치의 문자를 얻고 싶다면 charAt() 메소드를 이용할 수 있다. charAt() 메소드는 매개값으로 주어진 인덱스의 문자를 리턴한다. 여기서 인덱스란 0에서부터 -1까지의 번호를 말한다.
+
+```java
+String subject = "자바 프로그래밍";
+char charValue = subject.charAt(3);
+```
+
+"자바 프로그래밍"이라는 문자열은 다음과 같이 인덱스를 매길 수 있다. 따라서 charAt(3)은 3번 인덱스 위치에 있는 문자, 즉 '프'가 해당된다.
+
+`자` `바` `   ` `프` `로` `그` `래` `밍`
+
+ 0   1   2   3   4    5    6    7
+
+다음 예제는 주민등록번호에서 성별에 해당하는 7번째 문자를 읽고 남자 또는 여자인지를 출력한다.
+
+*CharAtExample.java*
+
+```java
+package Chap4_ConditionalAndLoop;
+
+public class CharAtExample {
+
+	public static void main(String[] args) {
+		
+		String ssn = "9506241230123";
+		char sex = ssn.charAt(6);
+		switch(sex) {
+			case '1':
+			case '3':
+				System.out.println("남자");
+				break;
+			case '2':
+			case '4':
+				System.out.println("여자");
+				break;
+		}
+
+	}
+
+}
+```
+
+```
+남자
+```
+
+### 문자열 길이
+
+문자열에서 문자의 개수를 얻고 싶다면 length() 메소드를 사용한다.
+
+*LengthExample.java*
+
+```java
+package Chap4_ConditionalAndLoop;
+
+public class LengthExample {
+
+	public static void main(String[] args) {
+		
+		String ssn = "9506241230123";
+		int length = ssn.length();
+		if(length == 13) {
+			System.out.println("자릿수 맞다");
+		} else {
+			System.out.println("자릿수 틀리다.");
+		}
+
+	}
+
+}
+```
+
+```
+자릿수 맞다
+```
+
+### 문자열 대체
+
+문자열에서 특정 문자열을 다른 문자열로 대체하고 싶다면 replace() 메소드를 사용한다. replace() 메소드는 기존 문자열은 그대로 두고, 대체한 새로운 문자열을 리턴한다. 
+
+```java
+String oldStr = "자바 프로그래밍";
+String newStr = oldStr.replace("자바", "JAVA");
+```
+
+String 객체의 문자열은 변경이 불가한 특성을 갖기 때문에 replace() 메소드가 리턴하는 문자열은 원래 문자열의 수정본이 아니라 완전히 새로운 문자열이다. 따라서 newStr 변수는 새로 생성된 "JAVA 프로그래밍" 문자열을 참조한다.
+
+*ReplaceExample.java*
+
+```java
+package Chap4_ConditionalAndLoop;
+
+public class ReplaceExample {
+
+	public static void main(String[] args) {
+		
+		String oldStr = "자바 문자열은 불변이다. 자바 문자열은 String이다.";
+		String newStr = oldStr.replace("자바", "JAVA");
+		
+		System.out.println(oldStr);
+		System.out.println(newStr);
+
+	}
+
+}
+```
+
+```
+자바 문자열은 불변이다. 자바 문자열은 String이다.
+JAVA 문자열은 불변이다. JAVA 문자열은 String이다.
+```
+
+### 문자열 잘라내기
+
+문자열에서 특정 위치의 문자열을 잘라내어 가져오고 싶다면 substring() 메소드를 사용한다.
+
+| 메소드                                  | 설명                                    |
+| --------------------------------------- | --------------------------------------- |
+| substring(int beginIndex)               | beginIndex에서 끝까지 잘라내기          |
+| substring(int beginIndex, int endIndex) | beginIndex에서 endIndex 앞까지 잘라내기 |
+
+*SubStringExample.java*
+
+```java
+package Chap4_ConditionalAndLoop;
+
+public class SubStringExample {
+
+	public static void main(String[] args) {
+		
+		String ssn = "880815-1234567";
+		
+		String firstNum = ssn.substring(0, 6);
+		System.out.println(firstNum);
+		
+		String secondNum = ssn.substring(7);
+		System.out.println(secondNum);
+
+	}
+
+}
+```
+
+```
+880815
+1234567
+```
+
+### 문자열 찾기
+
+문자열에서 특정 문자열의 위치를 찾고자 할 때에는 indexOf() 메소드를 사용한다. indexOf() 메소드는 주어진 문자열이 시작되는 인덱스를 리턴한다.
+
+만약 주어진 문자열이 포함되어 있지 않으면 indexOf() 메소드는 -1을 리턴한다. 주어진 문자열이 포함되어 있는지 여부에 따라 실행 코드를 달리하고 싶다면 if 조건식을 사용해서 다음과 같이 코드를 작성할 수 있다.
+
+```java
+int index = subject.indexOf("프로그래밍");
+if(index == -1) {
+    // 포함X
+} else {
+    // 포함O
+}
+```
+
+주어진 문자열이 단순히 포함되어 있는지만 조사하고 싶다면 contains() 메소드를 사용하면 편리하다. 원하는 문자열이 포함되어 있으면 contains() 메소드는 true를 리턴하고, 그렇지 않으면 false를 리턴한다.
+
+```java
+boolean result = subject.contains("프로그래밍")
+```
+
+*IndexOfContainsExample.java*
+
+```java
+package Chap4_ConditionalAndLoop;
+
+public class IndexOfContainsExample {
+
+	public static void main(String[] args) {
+		
+		String subject = "자바 프로그래밍";
+		
+		int location = subject.indexOf("프로그래밍");
+		System.out.println(location);
+		String substring = subject.substring(location);
+		System.out.println(substring);
+		
+		location = subject.indexOf("자바");
+		if(location != -1) {
+			System.out.println("자바와 관련된 책");
+		} else {
+			System.out.println("자바와 관련없는 책");
+		}
+		
+		boolean result = subject.contains("자바");
+		if(result) {
+			System.out.println("자바와 관련된 책");
+		} else {
+			System.out.println("자바와 관련없는 책");
+		}
+
+	}
+
+}
+```
+
+```
+3
+프로그래밍
+자바와 관련된 책
+자바와 관련된 책
+```
+
+### 문자열 분리
+
+
+
